@@ -59,20 +59,18 @@ landlab  ← must be installed from the branch above
 ## Tutorial Examples
 
 ### Example 1 — High vs. Low Sediment Attrition
-Two 1D river profiles (60 km, 500 m spacing) evolve under constant rock uplift. The models are identical except for the **sediment attrition rate**: one uses a short attrition length (soft sediment, 10 km) and the other a long attrition length (hard sediment, 100 km). Demonstrates how sediment hardness controls long-profile shape and river concavity.
+Two 1D river profiles (60 km, 500 m spacing) evolve under constant rock uplift. The models are identical except for the **sediment attrition rate**. Demonstrates how sediment hardness controls long-profile shape and river concavity.
 
 ### Example 2 — The Role of Bedrock Abrasion
-Two 1D models compare configurations where the **sediment is softer than the bedrock** versus where the **bedrock is softer than the sediment**. Highlights how the relative hardness of the two materials controls bedrock erosion rates and channel gradient.
+Two 1D models compare configurations where the **sediment is softer than the bedrock** versus where the **bedrock is softer than the sediment**. Highlights how the relative hardness of the bedrock and sediment controls bedrock erosion rates and channel gradient.
 
 ### Example 3 — Fixed-Width vs. Dynamic-Width Channel
 Explores the two channel-width assumptions available in EGBE:
 - **Fixed width**: empirical power-law scaling of width with bankfull discharge
-- **Dynamic width**: near-threshold equilibrium width, dependent on discharge, slope, and median grain size
-
-Run in both 1D and 2D (raster and hex grids), with visualisation of channel width, shear stress, drainage network structure, and long profiles using `ChannelProfiler`.
+- **Dynamic width**: width adjustment that is based on the near-threshold principle and is dependent on discharge, slope, and median grain size
 
 ### Example 4 — EGBE + BedrockLandslider: Fine vs. Coarse Landslide Sediment
-Couples EGBE with the **BedrockLandslider** component to simulate how landslide-derived sediment interacts with a river. A knickpoint triggers landslides; one model receives **fine-grained** (1 cm) deposits, the other **coarse-grained** (7 cm). Illustrates how grain size of landslide material controls post-landslide river incision rates and morphology.
+Couples EGBE with the **BedrockLandslider** component to simulate how landslide-derived sediment interacts with a river. A knickpoint triggers landslides; one model receives **fine** (1 cm) sediments, the other **coarse** (7 cm). Illustrates how grain size of landslide material controls post-landslide river incision rates and morphology.
 
 ---
 
@@ -90,9 +88,9 @@ Couples EGBE with the **BedrockLandslider** component to simulate how landslide-
 | `bedrock__plucking_rate` | m/y | Bedrock lowering by plucking |
 | `bedrock__abrasion_rate` | m/y | Bedrock lowering by abrasion |
 | `bedrock__lowering_rate` | m/y | Total bedrock lowering rate |
-| `sediment__rate_of_change` | m/y | Time rate of change of sediment thickness |
-| `bedload_sediment__volume_influx` | m³/y | Incoming bedload transport rate |
-| `bedload_sediment__volume_outflux` | m³/y | Outgoing bedload transport rate |
+| `sediment__rate_of_change` | m/y | Rate of change of sediment thickness |
+| `bedload_sediment__volume_influx` | m³/y | Incoming bedload flux |
+| `bedload_sediment__volume_outflux` | m³/y | Outgoing bedload flux |
 
 ### Key EGBE parameters
 
@@ -100,32 +98,15 @@ Couples EGBE with the **BedrockLandslider** component to simulate how landslide-
 |---|---|---|
 | `intermittency_factor` | 0.01 | Fraction of time bankfull flow occurs |
 | `sediment_porosity` | 0.35 | Bulk porosity of bed sediment |
-| `plucking_coefficient` | 1e-4 1/m | Rate coefficient for bedrock plucking |
+| `plucking_coefficient` | 1e-4 1/m | Erodibility coefficient for bedrock plucking |
 | `depth_decay_scale` | 1.0 | Scale for depth decay in bedrock exposure function |
 | `tau_star_c_median` | 0.045 | Dimensionless critical shear stress for median grain size |
+| `alpha` | 0.68 | Empirical exponent for critical shear stress |
 | `use_fixed_width` | True | Fixed (`True`) or dynamic (`False`) channel-width model |
 | `mannings_n` | 0.05 | Manning's roughness coefficient |
 | `tau_c_bedrock` | 10 | Critical shear stress for bedrock plucking |
-
----
-
-## Notebook Structure
-
-```
-extended_gravel_river_eroder.ipynb
-│
-├── Model description           — EGBE and SoilGrading theory and parameters
-├── Helper functions
-│   ├── create_1d_grid()        — 1D synthetic raster grid setup
-│   ├── create_2d_grid()        — 2D raster or hex grid setup
-│   ├── init_components()       — initialise SoilGrading, FlowAccumulator, EGBE, BedrockLandslider
-│   └── plot_profile()          — elevation profile and slope-area plots
-│
-├── Example 1                   — High vs. low sediment attrition (1D)
-├── Example 2                   — Bedrock abrasion (1D)
-├── Example 3                   — Fixed vs. dynamic channel width (1D and 2D)
-└── Example 4                   — EGBE + landslides: fine vs. coarse sediment (1D)
-```
+| `abrasion_coefficients` | 0 | Sediment attrition coefficient |
+| `bedrock_abrasion_coefficients` | 0.01 | Bedrock abrasion coefficient |
 
 ---
 
