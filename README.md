@@ -1,12 +1,29 @@
-# Extended Gravel Bedrock Eroder (EGBE) — Tutorial Notebook
+# Extended Gravel Bedrock Eroder (EGBE) — Tutorial and Analytical Solutions
 
-A hands-on tutorial for the **Extended Gravel Bedrock Eroder (EGBE)** and **SoilGrading** Landlab components, which simulate the co-evolution of a gravel alluvium layer and underlying bedrock across a river network. The notebook walks through four worked examples of increasing complexity, covering sediment attrition, bedrock abrasion, channel-width assumptions, and landslide–river coupling.
+Documentation and tutorial for the **Extended Gravel Bedrock Eroder (EGBE)** and **SoilGrading** Landlab components, which simulate the co-evolution of a gravel alluvium layer and underlying bedrock across a river network. The repository contains two notebooks:
+
+- **Tutorial** — four worked examples of increasing complexity, covering sediment attrition, bedrock abrasion, channel-width assumptions, and landslide–river coupling.
+- **Analytical solutions** — steady-state 1D analytical solutions and tests for EGBE
+---
+
+## Repository Contents
+
+```
+EGBE/
+├── README.md
+├── tutorial/
+│   └── extended_gravel_river_eroder.ipynb    # Tutorial: four worked examples
+└── analytical_solutions/
+    ├── test_1d_analytical_solutions.ipynb    # Analytical solutions and model tests
+    ├── egbelem.py                            # EgbeLem: landscape model wrapper around EGBE
+    └── model_base.py                         # Base class used by EgbeLem
+```
 
 ---
 
 ## ⚠️ Installation — Special Branch Required
 
-This tutorial depends on components that are **not yet available in the main Landlab release**. You must install Landlab directly from the development branch:
+Both notebooks depend on components that are **not yet available in the main Landlab release**. You must install Landlab directly from the development branch:
 
 ```bash
 pip install git+https://github.com/landlab/landlab.git@ys-sm-gt/gbe-expanded
@@ -106,18 +123,32 @@ Couples EGBE with the **BedrockLandslider** component to simulate how landslide-
 | `mannings_n` | 0.05 | Manning's roughness coefficient |
 | `tau_c_bedrock` | 10 | Critical shear stress for bedrock plucking |
 | `abrasion_coefficients` | 0 | Sediment attrition coefficient |
-| `bedrock_abrasion_coefficients` | 0.01 | Bedrock abrasion coefficient |
+| `bedrock_abrasion_coefficient` | 0.01 | Bedrock abrasion coefficient |
 
+---
+
+## Analytical Solutions Notebook
+
+`analytical_solutions/test_1d_analytical_solutions.ipynb` (G. Tucker, CU Boulder) derives steady-state analytical solutions for a 1D river profile under simplified EGBE equations, and checks the numerical model against them.
 ---
 
 ## Usage
 
-Open the notebook in Jupyter:
+**Tutorial**
 
 ```bash
-jupyter notebook extended_gravel_river_eroder.ipynb
+jupyter notebook tutorial/extended_gravel_river_eroder.ipynb
 ```
 
 Each example is self-contained. Run all cells from top to bottom within an example section. The helper functions (`create_1d_grid`, `init_components`, `plot_profile`) defined at the top are shared across all examples and must be executed first.
+
+**Analytical solutions**
+
+```bash
+cd analytical_solutions
+jupyter notebook test_1d_analytical_solutions.ipynb
+```
+
+Run the notebook from inside `analytical_solutions/` so that `from egbelem import EgbeLem` can find the local modules. Model output (`*.grid` files) is written to the same folder.
 
 ---

@@ -21,7 +21,7 @@ from model_base import LandlabModel, verify_input_file_and_load_params
 
 
 # Default factors related to fluvial transport
-EARTH_GRAV_ACCEL = 9.8  # gravitational acceleration at earth's surface, m/s2
+EARTH_GRAV_ACCEL = 9.81  # gravitational acceleration at earth's surface, m/s2
 RHO = 1000.0  # density of water, kg/m3
 RHO_SED = 2650.0  # density of sediment grains, kg/m3
 SEDIMENT_POROSITY = 1.0 / 3.0
